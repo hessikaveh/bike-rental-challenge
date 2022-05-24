@@ -121,12 +121,15 @@ def split_train_test(data, validation_fraction=0.25):
 
 
 def train_and_save(
-    data, filename="finalized_model_24052022.sav", print_diagnostics=False
+    data,
+    filename="finalized_model_24052022.sav",
+    print_diagnostics=False,
+    n_estimators=300,
 ):
     X_train, X_validation, Y_train, Y_validation = split_train_test(
         data, validation_fraction=0.25
     )
-    model = RandomForestRegressor(n_estimators=300)  # rbf is default kernel
+    model = RandomForestRegressor(n_estimators=n_estimators)  # rbf is default kernel
     model.fit(X_train, Y_train)
     # save the model to disk
     dump(model, open(filename, "wb"))
@@ -142,9 +145,7 @@ def load_model(filename="finalized_model_24052022.sav"):
     return model
 
 
-def find_best_model(
-    data, num_folds=5, scoring="neg_mean_squared_error"
-):
+def find_best_model(data, num_folds=5, scoring="neg_mean_squared_error"):
     """
     Takes the one-hot encoded input and searches for the best model.
     Stores the result in a plot.
@@ -373,4 +374,9 @@ if __name__ == "__main__":
     df_oh_ = prepare_data(data=df_, print_diagnostics=True)
     # find_best_model(data=df_oh)
     # optimize_RFR(data=df_oh)
-    train_and_save(data=df_oh_, print_diagnostics=True)
+    train_and_save(
+        data=df_oh_,
+        filename="finalized_model_24052022_light.sav",
+        n_estimators=10,
+        print_diagnostics=True,
+    )

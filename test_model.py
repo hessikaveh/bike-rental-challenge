@@ -1,7 +1,8 @@
 from model import load_model
 
+
 def test_load_model():
-    model = load_model(filename="finalized_model_24052022.sav")
+    model = load_model(filename="finalized_model_24052022_light.sav")
     X = [
         [
             0.74,
@@ -58,4 +59,4 @@ def test_load_model():
     ]
     predictions = model.predict(X)
     print(predictions)
-    assert predictions[0] == 5.682281678342067
+    assert predictions[0] == 5.647364794819862
