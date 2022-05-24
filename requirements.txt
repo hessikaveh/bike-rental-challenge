@@ -3,3 +3,9 @@ pytest
 click
 black
 pytest-cov
+pandas
+numpy
+statsmodels
+seaborn
+sklearn
+tensorflow
