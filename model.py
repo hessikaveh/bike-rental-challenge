@@ -6,8 +6,6 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
 from statsmodels.graphics.gofplots import qqplot
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import QuantileTransformer
@@ -145,7 +143,7 @@ def load_model(filename="finalized_model_24052022.sav"):
 
 
 def find_best_model(
-    data, enable_deep_learning=False, num_folds=5, scoring="neg_mean_squared_error"
+    data, num_folds=5, scoring="neg_mean_squared_error"
 ):
     """
     Takes the one-hot encoded input and searches for the best model.
@@ -369,10 +367,10 @@ def bar_plotter(data, x, y, title):
 
 
 if __name__ == "__main__":
-    df = load_data(print_diagnostics=True)
+    df_ = load_data(print_diagnostics=True)
     # make_EDA_plots(data=df)
     # diagnose_scaling(data=df)
-    df_oh = prepare_data(data=df, print_diagnostics=False)
+    df_oh_ = prepare_data(data=df_, print_diagnostics=True)
     # find_best_model(data=df_oh)
     # optimize_RFR(data=df_oh)
-    train_and_save(data=df_oh, print_diagnostics=True)
+    train_and_save(data=df_oh_, print_diagnostics=True)
