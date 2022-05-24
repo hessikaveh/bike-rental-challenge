@@ -59,4 +59,4 @@ def test_load_model():
     ]
     predictions = model.predict(X)
     print(predictions)
-    assert predictions[0] == 5.647364794819862
+    assert predictions[0] == 5.707557704861783

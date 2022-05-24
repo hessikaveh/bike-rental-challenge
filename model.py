@@ -133,16 +133,24 @@ def train_and_save(
     model.fit(X_train, Y_train)
     # save the model to disk
     dump(model, open(filename, "wb"))
+    print("Model saved in the following file: ", filename)
 
     if print_diagnostics:
         predictions = model.predict(X_validation)
         result = mean_squared_error(Y_validation, predictions)
-        print(result)
+        print("Mean squared error of the saved model: ", result)
 
 
 def load_model(filename="finalized_model_24052022.sav"):
     model = load(open(filename, "rb"))
+    print("Model loaded!")
     return model
+
+
+def evaluate_model(data, filename="finalized_model_24052022.sav"):
+    model = load_model(filename=filename)
+    predictions = model.predict(data)
+    return np.exp(predictions)
 
 
 def find_best_model(data, num_folds=5, scoring="neg_mean_squared_error"):
@@ -376,7 +384,19 @@ if __name__ == "__main__":
     # optimize_RFR(data=df_oh)
     train_and_save(
         data=df_oh_,
-        filename="finalized_model_24052022_light.sav",
-        n_estimators=10,
+        filename="finalized_model_24052022.sav",
+        n_estimators=300,
         print_diagnostics=True,
     )
+
+    _, X_test, _, Y_test = split_train_test(df_oh_, validation_fraction=0.25)
+    predictions_ = evaluate_model(X_test, filename="finalized_model_24052022.sav")
+    Y_truth = np.exp(Y_test)
+    error = Y_truth - predictions_
+    fig_, ax_ = plt.subplots()
+    ax_.scatter(Y_truth, error)
+    ax_.axhline(lw=3, color="black")
+    ax_.set_xlabel("Observed")
+    ax_.set_ylabel("Error")
+    plt.savefig("plots/Error.png")
+    print("Error plot is created!")
